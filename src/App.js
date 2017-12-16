@@ -1,22 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactDom from 'react-dom';
 
 class App extends React.Component {
+    constructor() {
+        super();
+        this.state = {a: ''}
+    }
+
+    update(e) {
+        this.setState({
+            a: this.a.refs.input.value,
+            b: this.refs.b.value,
+        })
+    }
+
     render() {
-        return <Title text="123456" />
+        return (
+            <div>
+                <Input
+                    ref={ component => this.a = component }
+                    update={this.update.bind(this)}
+                /> {this.state.a}
+                <hr />
+                <input 
+                    ref="b"
+                    type="text" 
+                    onChange={this.update.bind(this)}
+                /> {this.state.b}
+            </div>
+        )
     }
 }
 
-const Title = (props) => <h1>Title: {props.text}</h1>
-
-Title.propTypes = {
-    text(props, propName, component) {
-        if (!(propName in props)) {
-            return new Error(`missing ${propName}`);
-        }
-        if (props[propName].length < 6) {
-            return new Error(`${propName} was to short`);
-        }
+class Input extends React.Component {
+    render() {
+        return (
+            <div>
+                <input ref="input" type="text" onChange={this.props.update} />
+            </div>
+        )
     }
 }
 
