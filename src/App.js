@@ -2,24 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class App extends React.Component {
-    render() {
-        const txt = this.props.txt;
+    constructor() {
+        super();
 
+        this.state = {
+            txt: 'this is the state text',
+            cat: 0
+        }
+    }
+
+    update(e) {
+        this.setState({
+            txt: e.target.value,
+        })
+    }
+
+    render() {
+        const txt = this.state.txt;
+        const cat = this.state.cat;
+        
         return (
             <div>
-                <h1>{txt}</h1>
+                <input type="text" onChange={this.update.bind(this)} />
+                <h1>{txt} - {cat}</h1>
             </div>
         )
     }
-}
-
-App.propTypes = {
-    txt: PropTypes.string,
-    cat: PropTypes.number.isRequired,
-}
-
-App.defaultProps = {
-    txt: "this is the default text",
 }
 
 export default App
